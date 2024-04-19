@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using Shapes;
 
 namespace InclassW10
@@ -19,6 +20,11 @@ namespace InclassW10
     /// </summary>
     public partial class MainWindow : Window
     {
+        internal class Mode
+        {
+            static public int Drawing { get => 1; }
+            static public int Selecting { get => 0; }
+        }
         // Adorners must subclass the abstract base class Adorner.
         public class SimpleCircleAdorner : Adorner
         {
@@ -98,31 +104,71 @@ namespace InclassW10
             _painter = item;
             _mode = 1;
         }
+
+        UIElement _selectedElement;
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var mousePosition = e.GetPosition(myCanvas);
-            if (_mode == 1)
+            if (_mode == Mode.Drawing)
             {
                 _isDrawing = true;
+
                 _start = mousePosition;
+                _painter.AddFirst(_start);
+
+                RemoveAllAdorners();
+
             }
-            else if(_mode == 0) {
-                var result = myCanvas.InputHitTest(mousePosition) as UIElement;
-                if (result != null)
+            else if(_mode == Mode.Selecting)
+            {
+                SelectAndAdorn(mousePosition);
+            }
+        }
+
+        private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var mousePosition = e.GetPosition(myCanvas);
+            SelectAndAdorn(mousePosition);
+        }
+
+        private void SelectAndAdorn(Point mousePosition)
+        {
+            var result = myCanvas.InputHitTest(mousePosition) as UIElement;
+            if (result != null)
+            {
+                _selectedElement = result;
+                var myAdornerLayer = AdornerLayer.GetAdornerLayer(myCanvas);
+                RemoveAllAdorners();
+                myAdornerLayer.Add(new SimpleCircleAdorner(result));
+            }
+        }
+
+        private void RemoveAllAdorners()
+        {
+            var myAdornerLayer = AdornerLayer.GetAdornerLayer(myCanvas);
+            foreach (UIElement element in myCanvas.Children)
+            {
+                Adorner[] toRemoveArray = myAdornerLayer.GetAdorners(element);
+                if (toRemoveArray != null)
                 {
-                    //var selectedPainter = _painters.FirstOrDefault(x => x.Convert() == result);
-                    myCanvas.Children.Remove(result);
+                    for (int x = 0; x < toRemoveArray.Length; x++)
+                    {
+                        myAdornerLayer.Remove(toRemoveArray[x]);
+                    }
                 }
             }
         }
 
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_mode == 1)
+            if (_mode == Mode.Drawing)
             {
                 _isDrawing = false;
+
+                _end = e.GetPosition(myCanvas);
+                _painter.AddSecond(_end);
                 myCanvas.Children.Add(_painter.Convert());
-                //_painters.Add((IShape)_painter.Clone());
+
                 previewCanvas.Children.Clear();
             }
         }
@@ -137,10 +183,6 @@ namespace InclassW10
 
                     previewCanvas.Children.Clear();
 
-                    //foreach (var item in _painters)
-                    //{
-                    //    myCanvas.Children.Add(item.Convert());
-                    //}
                     _painter.AddFirst(_start);
                     _painter.AddSecond(_end);
 
@@ -154,7 +196,22 @@ namespace InclassW10
 
         private void NoneButton_Click(object sender, RoutedEventArgs e)
         {
-            _mode = 0;
+            _mode = Mode.Selecting;
         }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if(_selectedElement != null)
+            {
+                myCanvas.Children.Remove(_selectedElement);
+                _selectedElement = null;
+            }
+            else
+            {
+                MessageBox.Show("Select something to delete!","Error",MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        
+        
     }
 }
