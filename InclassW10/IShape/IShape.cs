@@ -14,6 +14,8 @@ namespace Shapes
         double strokeThickness { get; set; }
         Color brushColor { get; set; }
         DoubleCollection strokeDash {  get; set; }
+
+        Brush fill {  get; set; }
     }
 
 }

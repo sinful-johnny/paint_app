@@ -14,6 +14,8 @@ namespace MyLine
 
         public DoubleCollection strokeDash { get => strokeDash; set => strokeDash = value; }
 
+        public Brush fill { get => fill; set => fill = value; }
+
         private Point _start;
         private Point _end;
         public void AddFirst(Point point)

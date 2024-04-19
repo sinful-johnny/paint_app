@@ -14,6 +14,7 @@ namespace MyEllipse
         public double strokeThickness { get => strokeThickness; set => strokeThickness = value; }
         public Color brushColor { get => brushColor; set => brushColor = value; }
         public DoubleCollection strokeDash { get => strokeDash; set => strokeDash=value; }
+        public Brush fill { get => fill; set => fill = value; }
 
         private Point _topLeft;
         private Point _rightBottom;
@@ -39,6 +40,7 @@ namespace MyEllipse
                 Width = (_rightBottom.X >= _topLeft.X) ? _rightBottom.X - _topLeft.X : _topLeft.X - _rightBottom.X,
                 Height = (_rightBottom.Y >= _topLeft.Y) ? _rightBottom.Y - _topLeft.Y : _topLeft.Y - _rightBottom.Y,
                 StrokeThickness = 1,
+                Fill = new SolidColorBrush(Colors.Transparent),
                 Stroke = new SolidColorBrush(Colors.Blue)
             };
             if (_rightBottom.Y >= _topLeft.Y)

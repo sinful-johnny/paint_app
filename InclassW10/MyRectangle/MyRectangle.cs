@@ -15,6 +15,8 @@ namespace MyRectangle
         public Color brushColor { get => brushColor; set => brushColor = value; }
         public DoubleCollection strokeDash { get => strokeDash; set => strokeDash = value; }
 
+        public Brush fill { get => fill; set => fill = value; }
+
         private Point _topLeft;
         private Point _rightBottom;
         public void AddFirst(Point point)

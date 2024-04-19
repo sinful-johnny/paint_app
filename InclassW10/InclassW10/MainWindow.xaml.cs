@@ -54,9 +54,10 @@ namespace InclassW10
         bool _isDrawing = false;
         Point _start;
         Point _end;
-        List<IShape> _painters = new List<IShape>();
+        //List<IShape> _painters = new List<IShape>();
         IShape _painter;
         List<IShape> _prototypes = new List<IShape>();
+        int _mode = 0;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -95,27 +96,35 @@ namespace InclassW10
         {
             IShape item = (IShape)(sender as Button)!.Tag;
             _painter = item;
+            _mode = 1;
         }
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _isDrawing = true;
-            _start = e.GetPosition(myCanvas);
-            
-
-            //var canvas = sender as Canvas;
-            //if (canvas == null)
-            //    return;
-
-            //HitTestResult hitTestResult = VisualTreeHelper.HitTest(canvas, e.GetPosition(canvas));
-            //var element = hitTestResult.VisualHit as UIElement;
-            //var myAdornerLayer = AdornerLayer.GetAdornerLayer(element);
-            //myAdornerLayer.Add(new SimpleCircleAdorner(element));
+            var mousePosition = e.GetPosition(myCanvas);
+            if (_mode == 1)
+            {
+                _isDrawing = true;
+                _start = mousePosition;
+            }
+            else if(_mode == 0) {
+                var result = myCanvas.InputHitTest(mousePosition) as UIElement;
+                if (result != null)
+                {
+                    //var selectedPainter = _painters.FirstOrDefault(x => x.Convert() == result);
+                    myCanvas.Children.Remove(result);
+                }
+            }
         }
 
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _isDrawing = false;
-            _painters.Add((IShape)_painter.Clone());
+            if (_mode == 1)
+            {
+                _isDrawing = false;
+                myCanvas.Children.Add(_painter.Convert());
+                //_painters.Add((IShape)_painter.Clone());
+                previewCanvas.Children.Clear();
+            }
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -126,16 +135,16 @@ namespace InclassW10
                 {
                     _end = e.GetPosition(myCanvas);
 
-                    myCanvas.Children.Clear();
+                    previewCanvas.Children.Clear();
 
-                    foreach (var item in _painters)
-                    {
-                        myCanvas.Children.Add(item.Convert());
-                    }
+                    //foreach (var item in _painters)
+                    //{
+                    //    myCanvas.Children.Add(item.Convert());
+                    //}
                     _painter.AddFirst(_start);
                     _painter.AddSecond(_end);
 
-                    myCanvas.Children.Add(_painter.Convert());
+                    previewCanvas.Children.Add(_painter.Convert());
                 }
             }catch(Exception ex)
             {
@@ -143,13 +152,9 @@ namespace InclassW10
             }
         }
 
-        private void myCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void NoneButton_Click(object sender, RoutedEventArgs e)
         {
-            if(e.OriginalSource is Shape)
-            {
-                var activeShapte = (Shape)e.OriginalSource;
-                //Do sth
-            }
+            _mode = 0;
         }
     }
 }

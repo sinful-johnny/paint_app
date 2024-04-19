@@ -8,9 +8,12 @@
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <DockPanel LastChildFill="True">
         <StackPanel x:Name="actions" Height="60" DockPanel.Dock="Top" Orientation="Horizontal" Background="Black" >
+            <Button x:Name="NoneButton" Content="None" Click="NoneButton_Click" Width="50" Height="30"/>
         </StackPanel>
         <Grid>
-            <Canvas x:Name="myCanvas" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown">
+            <Canvas x:Name="myCanvas">
+            </Canvas>
+            <Canvas x:Name="previewCanvas" Background="Transparent">
             </Canvas>
             <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseLeftButtonUp="Canvas_MouseLeftButtonUp" MouseMove="Canvas_MouseMove" Background="Transparent">
             </Canvas>
