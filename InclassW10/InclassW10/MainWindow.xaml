@@ -19,6 +19,7 @@
                 <Canvas.Resources>
                     <ContextMenu x:Key="RightClickMenu">
                         <MenuItem x:Name="DeleteMenuItem" Header="Delete" Click="DeleteMenuItem_Click"/>
+                        <!--<MenuItem x:Name="RotateMenuItem" Header="Rotate" Click="RotateMenuItem_Click"/>-->
                     </ContextMenu>
                 </Canvas.Resources>
                 <Canvas.Style>
