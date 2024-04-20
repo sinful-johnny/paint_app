@@ -24,6 +24,7 @@ namespace InclassW10
         {
             static public int Drawing { get => 1; }
             static public int Selecting { get => 0; }
+            static public int Rotating { get => 2; }
         }
         // Adorners must subclass the abstract base class Adorner.
         public class SimpleCircleAdorner : Adorner
@@ -123,6 +124,10 @@ namespace InclassW10
             {
                 SelectAndAdorn(mousePosition);
             }
+            //else if(_mode != Mode.Rotating && rotateSlider != null)
+            //{
+            //    myCanvas.Children.Remove(rotateSlider);
+            //}
         }
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -139,7 +144,11 @@ namespace InclassW10
                 _selectedElement = result;
                 var myAdornerLayer = AdornerLayer.GetAdornerLayer(myCanvas);
                 RemoveAllAdorners();
-                myAdornerLayer.Add(new SimpleCircleAdorner(result));
+                myAdornerLayer.Add(new SelectionAdorner(result));
+            }
+            else
+            {
+                RemoveAllAdorners();
             }
         }
 
@@ -211,7 +220,36 @@ namespace InclassW10
                 MessageBox.Show("Select something to delete!","Error",MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
-        
+
+        //UIElement rotateSlider;
+        //private void RotateMenuItem_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Slider slider = new Slider()
+        //    {
+        //        Value = 0,
+        //        Maximum = 180,
+        //        Minimum = -180,
+        //        Height = 30,
+        //        Width = 150,
+        //        IsEnabled = true,
+        //    };
+        //    var currentPoint = _selectedElement.TranslatePoint(new Point(0.0, 0.0),null);
+        //    Canvas.SetLeft(slider, currentPoint.X);
+        //    Canvas.SetTop(slider, currentPoint.Y - 20);
+        //    slider.ValueChanged += Slider_ValueChanged;
+
+        //    rotateSlider = slider;
+        //    previewCanvas.Children.Add(rotateSlider);
+        //    _mode = Mode.Rotating;
+        //}
+
+        //private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        //{
+        //    var element = (FrameworkElement)_selectedElement;
+        //    RotateTransform myRotateTransform = new RotateTransform();
+        //    myRotateTransform.CenterX = element.Width / 2;
+        //    myRotateTransform.CenterY = element.Height / 2;
+        //    element.RenderTransform = myRotateTransform;
+        //}
     }
 }
