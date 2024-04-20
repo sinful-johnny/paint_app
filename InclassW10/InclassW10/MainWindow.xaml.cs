@@ -124,10 +124,6 @@ namespace InclassW10
             {
                 SelectAndAdorn(mousePosition);
             }
-            //else if(_mode != Mode.Rotating && rotateSlider != null)
-            //{
-            //    myCanvas.Children.Remove(rotateSlider);
-            //}
         }
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -165,6 +161,16 @@ namespace InclassW10
                         myAdornerLayer.Remove(toRemoveArray[x]);
                     }
                 }
+            }
+        }
+
+        private void reWrap()
+        {
+            if(_selectedElement != null)
+            {
+                var myAdornerLayer = AdornerLayer.GetAdornerLayer(myCanvas);
+                RemoveAllAdorners();
+                myAdornerLayer.Add(new SelectionAdorner(_selectedElement));
             }
         }
 
@@ -221,35 +227,39 @@ namespace InclassW10
             }
         }
 
-        //UIElement rotateSlider;
-        //private void RotateMenuItem_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Slider slider = new Slider()
-        //    {
-        //        Value = 0,
-        //        Maximum = 180,
-        //        Minimum = -180,
-        //        Height = 30,
-        //        Width = 150,
-        //        IsEnabled = true,
-        //    };
-        //    var currentPoint = _selectedElement.TranslatePoint(new Point(0.0, 0.0),null);
-        //    Canvas.SetLeft(slider, currentPoint.X);
-        //    Canvas.SetTop(slider, currentPoint.Y - 20);
-        //    slider.ValueChanged += Slider_ValueChanged;
+        private double _scaleValue = 1.0;
+        private double zoomScaleFactor = 1.1;
+        private Point? mousePos;
 
-        //    rotateSlider = slider;
-        //    previewCanvas.Children.Add(rotateSlider);
-        //    _mode = Mode.Rotating;
-        //}
+        private async void DiagramDesignerCanvasContainer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            //// Determine the direction of the zoom (in or out)
+            //var centerPosition = e.GetPosition(myCanvas);
+            //bool zoomIn = e.Delta > 0;
 
-        //private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        //{
-        //    var element = (FrameworkElement)_selectedElement;
-        //    RotateTransform myRotateTransform = new RotateTransform();
-        //    myRotateTransform.CenterX = element.Width / 2;
-        //    myRotateTransform.CenterY = element.Height / 2;
-        //    element.RenderTransform = myRotateTransform;
-        //}
+            //// Set the scale value based on the direction of the zoom
+            //_scaleValue += zoomIn ? 0.1 : -0.1;
+
+            //// Set the maximum and minimum scale values
+            //_scaleValue = _scaleValue < 0.1 ? 0.1 : _scaleValue;
+            //_scaleValue = _scaleValue > 10.0 ? 10.0 : _scaleValue;
+
+            //// Apply the scale transformation to the ItemsControl
+            //ScaleTransform scaleTransform = new ScaleTransform(_scaleValue, _scaleValue, centerPosition.X, centerPosition.Y);
+            //DiagramDesignerCanvasContainer.LayoutTransform = scaleTransform;
+            ZoomAtMousePos(e, myCanvas);
+            ZoomAtMousePos(e, previewCanvas);
+            reWrap();
+        }
+
+        private void ZoomAtMousePos(MouseWheelEventArgs e, UIElement element)
+        {
+            var pos = e.GetPosition(element);
+            var scale = e.Delta > 0 ? zoomScaleFactor : 1 / zoomScaleFactor;
+            var transform = (MatrixTransform)element.RenderTransform;
+            var matrix = transform.Matrix;
+            matrix.ScaleAt(scale, scale, pos.X, pos.Y);
+            transform.Matrix = matrix;
+        }
     }
 }
