@@ -20,7 +20,7 @@ namespace InclassW10
     {
         int angle;
         VisualCollection AdornerVisual;
-        Thumb thumb1, thumb2,thumbCenter,thumbBottom;
+        Thumb thumb1, thumb2,thumbCenter;
         Rectangle Rec;
         TextBlock angleText;
         TextBox angleInput;
