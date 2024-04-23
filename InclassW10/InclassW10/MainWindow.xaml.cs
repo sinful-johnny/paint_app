@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -6,15 +8,29 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using Microsoft.Win32;
 using Shapes;
 
 namespace InclassW10
 {
+    static class ExtMethods
+    {
+        public static T GetCopy<T>(this T element) where T : UIElement
+        {
+            using (var ms = new MemoryStream())
+            {
+                XamlWriter.Save(element, ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                return (T)XamlReader.Load(ms);
+            }
+        }
+    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -260,6 +276,45 @@ namespace InclassW10
             var matrix = transform.Matrix;
             matrix.ScaleAt(scale, scale, pos.X, pos.Y);
             transform.Matrix = matrix;
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XAML files (*.xaml)|*.xaml";
+            //saveFileDialog.Filter = "Binary File (*.bin)|*.bin";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filename = saveFileDialog.FileName;
+                var BFM = new BinaryFileManagement(filename, myCanvas);
+                BFM.SaveFile();
+            }
+        }
+
+        private void saveasButton_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PNG files (*.png)|*.png";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filename = saveFileDialog.FileName;
+                var BFM = new BinaryFileManagement(filename, myCanvas);
+                BFM.SavePngFile();
+            }
+        }
+
+        private void loadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var screen = new OpenFileDialog();
+
+            if (screen.ShowDialog() == true)
+            {
+                string filename = screen.FileName;
+                var BFM = new BinaryFileManagement(filename, myCanvas);
+                BFM.LoadFile();
+            }
         }
     }
 }

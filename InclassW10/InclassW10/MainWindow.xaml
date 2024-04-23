@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:InclassW10"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <DockPanel LastChildFill="True">
+    <DockPanel LastChildFill="True" Name="dockPanelScreen">
         <StackPanel x:Name="actions" Height="60" DockPanel.Dock="Top" Orientation="Horizontal" Background="Black" >
+            <Button x:Name="SaveButton" Content="Save" Click="saveButton_Click" Width="50" Height="30"/>
+            <Button x:Name="SaveAsButton" Content="Save as" Click="saveasButton_Click" Width="50" Height="30"/>
+            <Button x:Name="LoadButton" Content="Load" Click="loadButton_Click" Width="50" Height="30"/>
             <Button x:Name="NoneButton" Content="None" Click="NoneButton_Click" Width="50" Height="30"/>
         </StackPanel>
         <Grid>
