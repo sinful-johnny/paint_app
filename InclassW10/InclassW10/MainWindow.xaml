@@ -5,132 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InclassW10"
         mc:Ignorable="d"
-        Title="MainWindow" Height="530" Width="800" Loaded="Window_Loaded">
-    <Window.Resources>
-        <Style TargetType="Ribbon">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-
-        </Style>
-    </Window.Resources>
-    <DockPanel LastChildFill="True">
-        <StackPanel x:Name="actions" Height="159" DockPanel.Dock="Top" Orientation="Horizontal">
-            <Ribbon  Height="159">
-                <RibbonTab Header="Shapes" Margin="0,0,0,-24" Width="798">
-                    <RibbonGroup Header="Media" Width="101">
-                        <WrapPanel Orientation="Horizontal">
-                            <Button>
-                                <Image Source="assets/import.png" Height="79" Width="80"/>
-                            </Button>
-                        </WrapPanel>
-                    </RibbonGroup>
-                    <RibbonGroup Header="Colors" >
-                        <WrapPanel Background="LightGray" Orientation="Vertical" Width="180" Height="80">
-                            <!-- Red -->
-                            <Rectangle Fill="Red" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <!-- Green -->
-                            <Rectangle Fill="Green" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <!-- Blue -->
-                            <Rectangle Fill="Blue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <!-- Yellow -->
-                            <Rectangle Fill="Yellow" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <!-- Cyan -->
-                            <Rectangle Fill="Cyan" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <!-- Magenta -->
-
-                            <Rectangle Fill="Magenta" Width="10" Height="10" MouseDown="SelectColor" Margin="5"/>
-                            <Rectangle Fill="Pink" Width="10" Height="10" MouseDown="SelectColor" Margin="5"/>
-                            <Rectangle Fill="Black" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="PeachPuff" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Purple" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Plum" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Lavender" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Indigo" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Orange" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="OrangeRed" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="DarkRed" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Azure" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Coral" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Aquamarine" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Fuchsia" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="AliceBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="DarkBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="SeaShell" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="SeaGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="White" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightPink" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="SeaGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="White" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightPink" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightPink" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="GreenYellow" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LawnGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LimeGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Violet" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                        </WrapPanel>
-                    </RibbonGroup>
-                    <RibbonGroup Header="Dash">
-                        <WrapPanel Background="LightGray" Orientation="Vertical">
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="1"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="5,2"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="1,2"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="4,2,1,2"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="4,2,1,2,1,2"/>
-                            </Button>
-                        </WrapPanel>
-                    </RibbonGroup>
-                    <RibbonGroup Header="Thickness">
-                        <WrapPanel Background="LightGray" Orientation="Vertical">
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="1"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="2"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="3"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="4"/>
-                            </Button>
-                            <Button Width="70" Height="10" Margin="3" Click="DashStyleSelected" BorderThickness="0" Background="Transparent">
-                                <Line X1="0" Y1="0" X2="70" Y2="0" Stroke="Black" StrokeThickness="5"/>
-                            </Button>
-                        </WrapPanel>
-                    </RibbonGroup>
-                </RibbonTab>
-            </Ribbon>
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <DockPanel LastChildFill="True" Name="dockPanelScreen">
+        <StackPanel x:Name="actions" Height="60" DockPanel.Dock="Top" Orientation="Horizontal" Background="Black" >
+            <Button x:Name="SaveButton" Content="Save" Click="saveButton_Click" Width="50" Height="30"/>
+            <Button x:Name="SaveAsButton" Content="Save as" Click="saveasButton_Click" Width="50" Height="30"/>
+            <Button x:Name="LoadButton" Content="Load" Click="loadButton_Click" Width="50" Height="30"/>
+            <Button x:Name="NoneButton" Content="None" Click="NoneButton_Click" Width="50" Height="30"/>
         </StackPanel>
         <Grid>
-            <Canvas x:Name="myCanvas">
-            </Canvas>
             <Canvas x:Name="previewCanvas" Background="Transparent">
+                <Canvas.RenderTransform>
+                    <MatrixTransform />
+                </Canvas.RenderTransform>
             </Canvas>
-            <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseLeftButtonUp="Canvas_MouseLeftButtonUp" MouseMove="Canvas_MouseMove" MouseRightButtonDown="Canvas_MouseRightButtonDown" Background="Transparent">
-                <Canvas.Resources>
+            <ItemsControl x:Name="DiagramDesignerCanvasContainer" 
+                          MouseWheel="DiagramDesignerCanvasContainer_MouseWheel" 
+                          MouseLeftButtonDown="Canvas_MouseLeftButtonDown" 
+                          MouseLeftButtonUp="Canvas_MouseLeftButtonUp" 
+                          MouseMove="Canvas_MouseMove" 
+                          MouseRightButtonDown="Canvas_MouseRightButtonDown">
+                <ItemsControl.Resources>
                     <ContextMenu x:Key="RightClickMenu">
                         <MenuItem x:Name="DeleteMenuItem" Header="Delete" Click="DeleteMenuItem_Click"/>
                         <!--<MenuItem x:Name="RotateMenuItem" Header="Rotate" Click="RotateMenuItem_Click"/>-->
                     </ContextMenu>
-                </Canvas.Resources>
-                <Canvas.Style>
-                    <Style TargetType="{x:Type Canvas}" >
+                </ItemsControl.Resources>
+                <ItemsControl.Style>
+                    <Style TargetType="{x:Type ItemsControl}" >
                         <Setter Property="ContextMenu" Value="{StaticResource RightClickMenu}" />
                     </Style>
-                </Canvas.Style>
-            </Canvas>
+                </ItemsControl.Style>
+                <ItemsControl.RenderTransform>
+                    <MatrixTransform />
+                </ItemsControl.RenderTransform>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas x:Name="diagramDesigner">
+                            <Canvas.Background>
+                                <SolidColorBrush Color="Transparent"/>
+                            </Canvas.Background>
+                        </Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <Canvas x:Name="myCanvas" Background="White">
+                    <Canvas.RenderTransform>
+                        <MatrixTransform />
+                    </Canvas.RenderTransform>
+                </Canvas>
+            </ItemsControl>
         </Grid>
     </DockPanel>
 </Window>

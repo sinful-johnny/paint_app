@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -6,16 +8,29 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
-using MyEllipse;
+using Microsoft.Win32;
 using Shapes;
 
 namespace InclassW10
 {
+    static class ExtMethods
+    {
+        public static T GetCopy<T>(this T element) where T : UIElement
+        {
+            using (var ms = new MemoryStream())
+            {
+                XamlWriter.Save(element, ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                return (T)XamlReader.Load(ms);
+            }
+        }
+    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -145,10 +160,6 @@ namespace InclassW10
             {
                 SelectAndAdorn(mousePosition);
             }
-            //else if(_mode != Mode.Rotating && rotateSlider != null)
-            //{
-            //    myCanvas.Children.Remove(rotateSlider);
-            //}
         }
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -186,6 +197,16 @@ namespace InclassW10
                         myAdornerLayer.Remove(toRemoveArray[x]);
                     }
                 }
+            }
+        }
+
+        private void reWrap()
+        {
+            if(_selectedElement != null)
+            {
+                var myAdornerLayer = AdornerLayer.GetAdornerLayer(myCanvas);
+                RemoveAllAdorners();
+                myAdornerLayer.Add(new SelectionAdorner(_selectedElement));
             }
         }
 
@@ -242,45 +263,78 @@ namespace InclassW10
             }
         }
 
-        private void Ribbon_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private double _scaleValue = 1.0;
+        private double zoomScaleFactor = 1.1;
+        private Point? mousePos;
 
+        private async void DiagramDesignerCanvasContainer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            //// Determine the direction of the zoom (in or out)
+            //var centerPosition = e.GetPosition(myCanvas);
+            //bool zoomIn = e.Delta > 0;
+
+            //// Set the scale value based on the direction of the zoom
+            //_scaleValue += zoomIn ? 0.1 : -0.1;
+
+            //// Set the maximum and minimum scale values
+            //_scaleValue = _scaleValue < 0.1 ? 0.1 : _scaleValue;
+            //_scaleValue = _scaleValue > 10.0 ? 10.0 : _scaleValue;
+
+            //// Apply the scale transformation to the ItemsControl
+            //ScaleTransform scaleTransform = new ScaleTransform(_scaleValue, _scaleValue, centerPosition.X, centerPosition.Y);
+            //DiagramDesignerCanvasContainer.LayoutTransform = scaleTransform;
+            ZoomAtMousePos(e, myCanvas);
+            ZoomAtMousePos(e, previewCanvas);
+            reWrap();
         }
 
-        private void DashStyleSelected(object sender, RoutedEventArgs e)
+        private void ZoomAtMousePos(MouseWheelEventArgs e, UIElement element)
         {
-
+            var pos = e.GetPosition(element);
+            var scale = e.Delta > 0 ? zoomScaleFactor : 1 / zoomScaleFactor;
+            var transform = (MatrixTransform)element.RenderTransform;
+            var matrix = transform.Matrix;
+            matrix.ScaleAt(scale, scale, pos.X, pos.Y);
+            transform.Matrix = matrix;
         }
 
-        //UIElement rotateSlider;
-        //private void RotateMenuItem_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Slider slider = new Slider()
-        //    {
-        //        Value = 0,
-        //        Maximum = 180,
-        //        Minimum = -180,
-        //        Height = 30,
-        //        Width = 150,
-        //        IsEnabled = true,
-        //    };
-        //    var currentPoint = _selectedElement.TranslatePoint(new Point(0.0, 0.0),null);
-        //    Canvas.SetLeft(slider, currentPoint.X);
-        //    Canvas.SetTop(slider, currentPoint.Y - 20);
-        //    slider.ValueChanged += Slider_ValueChanged;
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XAML files (*.xaml)|*.xaml";
+            //saveFileDialog.Filter = "Binary File (*.bin)|*.bin";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filename = saveFileDialog.FileName;
+                var BFM = new BinaryFileManagement(filename, myCanvas);
+                BFM.SaveFile();
+            }
+        }
 
-        //    rotateSlider = slider;
-        //    previewCanvas.Children.Add(rotateSlider);
-        //    _mode = Mode.Rotating;
-        //}
+        private void saveasButton_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PNG files (*.png)|*.png";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filename = saveFileDialog.FileName;
+                var BFM = new BinaryFileManagement(filename, myCanvas);
+                BFM.SavePngFile();
+            }
+        }
 
-        //private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        //{
-        //    var element = (FrameworkElement)_selectedElement;
-        //    RotateTransform myRotateTransform = new RotateTransform();
-        //    myRotateTransform.CenterX = element.Width / 2;
-        //    myRotateTransform.CenterY = element.Height / 2;
-        //    element.RenderTransform = myRotateTransform;
-        //}
+        private void loadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var screen = new OpenFileDialog();
+
+            if (screen.ShowDialog() == true)
+            {
+                string filename = screen.FileName;
+                var BFM = new BinaryFileManagement(filename, myCanvas);
+                BFM.LoadFile();
+            }
+        }
     }
 }
