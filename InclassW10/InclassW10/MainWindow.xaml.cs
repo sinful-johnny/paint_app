@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using MyEllipse;
 using Shapes;
 
 namespace InclassW10
@@ -56,6 +57,7 @@ namespace InclassW10
         }
         public MainWindow()
         {
+            
             InitializeComponent();
         }
         bool _isDrawing = false;
@@ -107,6 +109,25 @@ namespace InclassW10
         }
 
         UIElement _selectedElement;
+
+        private void SelectColor(object  sender, MouseButtonEventArgs e)
+        {
+            if (sender is Rectangle rectangle && _painter != null)
+            {
+                var brush = rectangle.Fill as SolidColorBrush;
+                if (brush != null)
+                {
+                    _painter.setBrushColor(brush.Color);
+                }
+                else
+                {
+                    _painter.setBrushColor(Colors.Transparent);
+                }
+                string colorInfo = $"Selected Color: #{brush.Color.A:X2}{brush.Color.R:X2}{brush.Color.G:X2}{brush.Color.B:X2}";
+
+                MessageBox.Show(colorInfo, "Selected Color", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var mousePosition = e.GetPosition(myCanvas);
@@ -219,6 +240,16 @@ namespace InclassW10
             {
                 MessageBox.Show("Select something to delete!","Error",MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void Ribbon_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void DashStyleSelected(object sender, RoutedEventArgs e)
+        {
+
         }
 
         //UIElement rotateSlider;

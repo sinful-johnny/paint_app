@@ -12,7 +12,7 @@ namespace MyEllipse
         public string Name => "Ellipse";
 
         public double strokeThickness { get => strokeThickness; set => strokeThickness = value; }
-        public Color brushColor { get => brushColor; set => brushColor = value; }
+        public Color brushColor { get; set; }
         public DoubleCollection strokeDash { get => strokeDash; set => strokeDash=value; }
         public Brush fill { get => fill; set => fill = value; }
 
@@ -62,6 +62,11 @@ namespace MyEllipse
                 Canvas.SetLeft(element, _rightBottom.X);
             }
             return element;
+        }
+
+        public void setBrushColor(Color color)
+        {
+            brushColor = color;
         }
     }
 

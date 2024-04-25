@@ -5,13 +5,13 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InclassW10", "InclassW10\InclassW10.csproj", "{883D5BA0-648D-4A63-86BB-8DA023398E1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShape", "IShape\IShape.csproj", "{9BB6B0D2-CEA6-4665-81D3-48C484561EA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShape", "IShape\IShape.csproj", "{9BB6B0D2-CEA6-4665-81D3-48C484561EA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLine", "MyLine\MyLine.csproj", "{D3FA947E-1EF9-4B94-847D-CC64209E828C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLine", "MyLine\MyLine.csproj", "{D3FA947E-1EF9-4B94-847D-CC64209E828C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRectangle", "MyRectangle\MyRectangle.csproj", "{26D9908E-808A-436E-9D8C-D295F5C770DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyRectangle", "MyRectangle\MyRectangle.csproj", "{26D9908E-808A-436E-9D8C-D295F5C770DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyEllipse", "MyEllipse\MyEllipse.csproj", "{3C5D40B5-5E5A-4375-8292-A8D68E7334DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyEllipse", "MyEllipse\MyEllipse.csproj", "{3C5D40B5-5E5A-4375-8292-A8D68E7334DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

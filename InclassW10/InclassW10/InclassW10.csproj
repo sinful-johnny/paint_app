@@ -9,7 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\import.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IShape\IShape.csproj" />
+    <ProjectReference Include="..\MyEllipse\MyEllipse.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\import.png" />
   </ItemGroup>
 
 </Project>

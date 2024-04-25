@@ -1,4 +1,5 @@
 
+
 using System.Windows;
 using System.Windows.Media;
 
@@ -13,8 +14,8 @@ namespace Shapes
         string Name { get; }
         double strokeThickness { get; set; }
         Color brushColor { get; set; }
-        DoubleCollection strokeDash {  get; set; }
-
+        public void setBrushColor(Color color);
+        DoubleCollection strokeDash { get; set; }
         Brush fill {  get; set; }
     }
 
