@@ -12,7 +12,7 @@ namespace MyRectangle
         public double strokeThickness { get => strokeThickness; set => strokeThickness = value; }
         public string Name => "Rectangle";
 
-        public Color brushColor { get => brushColor; set => brushColor = value; }
+        public Color brushColor { get; set; }
         public DoubleCollection strokeDash { get => strokeDash; set => strokeDash = value; }
 
         public Brush fill { get => fill; set => fill = value; }
@@ -63,6 +63,19 @@ namespace MyRectangle
             }
             return element;
 
+        }
+
+        public void setBrushColor(Color color)
+        {
+            brushColor = color;
+        }
+        public void SetStrokeDash(DoubleCollection strokeDash)
+        {
+            this.strokeDash = strokeDash;
+        }
+        public void SetThickness(double Thickness)
+        {
+            strokeThickness = Thickness;
         }
     }
 

@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\load.png" />
+    <None Remove="assets\save-as.png" />
+    <None Remove="assets\save.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
   </ItemGroup>
 
@@ -19,6 +25,9 @@
 
   <ItemGroup>
     <Resource Include="assets\import.png" />
+    <Resource Include="assets\load.png" />
+    <Resource Include="assets\save-as.png" />
+    <Resource Include="assets\save.png" />
   </ItemGroup>
 
 </Project>

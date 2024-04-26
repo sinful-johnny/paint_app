@@ -138,11 +138,39 @@ namespace InclassW10
                 {
                     _painter.setBrushColor(Colors.Transparent);
                 }
-                string colorInfo = $"Selected Color: #{brush.Color.A:X2}{brush.Color.R:X2}{brush.Color.G:X2}{brush.Color.B:X2}";
-
-                MessageBox.Show(colorInfo, "Selected Color", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        private void SelectThickness(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line)
+            {
+                Double Thickness = line.StrokeThickness;
+                _painter.SetThickness(Thickness);
+            }
+        }
+
+        private void SelectDashStyle(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line)
+            {
+                DoubleCollection dashStyles; 
+
+                if (line.StrokeDashArray != null && line.StrokeDashArray.Count > 0)
+                {
+                    dashStyles = line.StrokeDashArray;
+                } 
+
+                else
+                {
+                    dashStyles = [];
+                }
+
+                _painter.SetStrokeDash(dashStyles);
+            }
+        }
+
+
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var mousePosition = e.GetPosition(myCanvas);

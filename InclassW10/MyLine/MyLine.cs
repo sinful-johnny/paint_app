@@ -10,7 +10,7 @@ namespace MyLine
         public double strokeThickness { get => strokeThickness; set => strokeThickness = value; }
         public string Name => "Line";
 
-        public Color brushColor { get => brushColor; set => brushColor=value; }
+        public Color brushColor { get; set; }
 
         public DoubleCollection strokeDash { get => strokeDash; set => strokeDash = value; }
 
@@ -44,6 +44,19 @@ namespace MyLine
                 StrokeThickness = 1,
                 Stroke = new SolidColorBrush(Colors.Red)
             };
+        }
+
+        public void setBrushColor(Color color)
+        {
+            brushColor = color;
+        }
+        public void SetStrokeDash(DoubleCollection strokeDash)
+        {
+            this.strokeDash = strokeDash;
+        }
+        public void SetThickness(double Thickness)
+        {
+            strokeThickness = Thickness;
         }
     }
 
