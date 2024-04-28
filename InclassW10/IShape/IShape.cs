@@ -18,6 +18,7 @@ namespace Shapes
         DoubleCollection strokeDash { get; set; }
         public void SetStrokeDash(DoubleCollection strokeDash);
         public void SetThickness(Double Thickness);
+        public void SetFill(Brush brush);
         Brush fill {  get; set; }
     }
 

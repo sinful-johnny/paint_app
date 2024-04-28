@@ -77,6 +77,10 @@ namespace MyRectangle
         {
             strokeThickness = Thickness;
         }
+        public void SetFill(Brush brush)
+        {
+            fill = brush;
+        }
     }
 
 }

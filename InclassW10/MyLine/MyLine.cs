@@ -58,6 +58,11 @@ namespace MyLine
         {
             strokeThickness = Thickness;
         }
+
+        public void SetFill(Brush brush)
+        {
+            fill = brush;
+        }
     }
 
 }

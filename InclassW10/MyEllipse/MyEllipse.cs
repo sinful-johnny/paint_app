@@ -77,6 +77,11 @@ namespace MyEllipse
         {
             strokeThickness = Thickness;
         }
+
+        public void SetFill(Brush brush)
+        {
+            fill = brush;
+        }
     }
 
 }

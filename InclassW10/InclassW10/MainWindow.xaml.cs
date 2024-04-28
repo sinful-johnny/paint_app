@@ -40,6 +40,7 @@ namespace InclassW10
         {
             static public int Drawing { get => 1; }
             static public int Selecting { get => 0; }
+            static public int EmbedImage { get => 3; }
             static public int Rotating { get => 2; }
         }
         // Adorners must subclass the abstract base class Adorner.
@@ -78,8 +79,11 @@ namespace InclassW10
         bool _isDrawing = false;
         Point _start;
         Point _end;
+        Image? current_image;
+        Point lastMousePosition;
         //List<IShape> _painters = new List<IShape>();
         IShape _painter;
+        bool resizeMode;
         List<IShape> _prototypes = new List<IShape>();
         int _mode = 0;
 
@@ -111,7 +115,7 @@ namespace InclassW10
                     Tag = item
                 };
                 control.Click += Control_Click;
-                actions.Children.Add(control);
+                // actions.Children.Add(control);
             }
             _painter = _prototypes[0];
         }
@@ -146,7 +150,7 @@ namespace InclassW10
             if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line)
             {
                 Double Thickness = line.StrokeThickness;
-                _painter.SetThickness(Thickness);
+                _painter?.SetThickness(Thickness);
             }
         }
 
@@ -166,7 +170,7 @@ namespace InclassW10
                     dashStyles = [];
                 }
 
-                _painter.SetStrokeDash(dashStyles);
+                _painter?.SetStrokeDash(dashStyles);
             }
         }
 
@@ -189,6 +193,7 @@ namespace InclassW10
                 SelectAndAdorn(mousePosition);
             }
         }
+
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -227,6 +232,33 @@ namespace InclassW10
                 }
             }
         }
+
+        private void ImageImport(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg;*.gif;*.bmp)|*.png;*.jpg;*.jpeg;*.gif;*.bmp|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    if (_painter != null)
+                    {
+                        string imagePath = openFileDialog.FileName;
+                        ImageBrush newImage = new ImageBrush();
+                        newImage.ImageSource = new BitmapImage(new Uri(imagePath));
+                        newImage.Stretch = Stretch.Fill;
+
+                        _painter.SetFill(newImage);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error importing image: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
 
         private void reWrap()
         {
