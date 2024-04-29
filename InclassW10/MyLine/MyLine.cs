@@ -12,9 +12,9 @@ namespace MyLine
 
         public Color brushColor { get; set; }
 
-        public DoubleCollection strokeDash { get => strokeDash; set => strokeDash = value; }
+        public DoubleCollection strokeDash { get; set; }
 
-        public Brush fill { get => fill; set => fill = value; }
+        public Brush fill { get; set; }
 
         private Point _start;
         private Point _end;
