@@ -1,12 +1,10 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using System.Windows.Shapes;
 
 namespace InclassW10
@@ -23,38 +21,54 @@ namespace InclassW10
 
         public void SavePngFile()
         {
-            Canvas canvasPNG = _canvas;
-            canvasPNG.Background = System.Windows.Media.Brushes.Blue;
-            Rect bounds = VisualTreeHelper.GetDescendantBounds(canvasPNG);
-            double dpi = 96d;
-
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)bounds.Width, 
-                (int)bounds.Height, dpi, dpi, PixelFormats.Default);
-
-            DrawingVisual dv = new DrawingVisual();
-            using (DrawingContext dc = dv.RenderOpen())
+            if (_canvas.Children.Capacity != 0)
             {
-                VisualBrush vb = new VisualBrush(canvasPNG);
-                dc.DrawRectangle(vb, null, new Rect(new System.Windows.Point(), bounds.Size));
+                Canvas canvasPNG = _canvas;
+                canvasPNG.Background = System.Windows.Media.Brushes.Blue;
+                Rect bounds = VisualTreeHelper.GetDescendantBounds(canvasPNG);
+                double dpi = 96d;
+
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)bounds.Width,
+                    (int)bounds.Height, dpi, dpi, PixelFormats.Default);
+
+                DrawingVisual dv = new DrawingVisual();
+                using (DrawingContext dc = dv.RenderOpen())
+                {
+                    VisualBrush vb = new VisualBrush(canvasPNG);
+                    dc.DrawRectangle(vb, null, new Rect(new System.Windows.Point(), bounds.Size));
+                }
+
+                rtb.Render(dv);
+
+                BitmapEncoder pngEncoder = new PngBitmapEncoder();
+                pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
+
+                try
+                {
+                    MemoryStream ms = new MemoryStream();
+
+                    pngEncoder.Save(ms);
+                    ms.Close();
+
+                    File.WriteAllBytes(_path, ms.ToArray());
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-
-            rtb.Render(dv);
-
-            BitmapEncoder pngEncoder = new PngBitmapEncoder();
-            pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
-
-            try
+            else
             {
-                MemoryStream ms = new MemoryStream();
-
-                pngEncoder.Save(ms);
-                ms.Close();
-
-                File.WriteAllBytes(_path, ms.ToArray());
-            }
-            catch (Exception err)
-            {
-                MessageBox.Show(err.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var result = MessageBox.Show("Are you sure want to save empty png file?", "Save png file", 
+                    MessageBoxButton.YesNoCancel);
+                if (result == MessageBoxResult.Yes)
+                {
+                    FileStream fs = File.Open(_path, FileMode.Create);
+                }
+                else if (result == MessageBoxResult.No || result == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
             }
         }
 
@@ -67,6 +81,7 @@ namespace InclassW10
             //binaryWriter.Close();
             //XamlBinaryWriter.Save(_canvas, fs);
             fs.Close();
+            File.WriteAllBytes(_path, File.ReadAllBytes(_path));
         }
 
         public void LoadFile()
@@ -96,6 +111,26 @@ namespace InclassW10
                 var x = canvasChild.GetCopy();
                 _canvas.Children.Add((UIElement)x);
             }
+        }
+
+        public void ImportImageFile()
+        {
+            //string ImageName = _path.Split(".")[0];
+            BitmapImage imageSource = new BitmapImage();
+            imageSource.BeginInit();
+            imageSource.UriSource = new Uri(_path);
+            imageSource.EndInit();
+            Image ImageImported = new Image
+            {
+                Width = 300,
+                Height = 300,
+                //Name = ImageName,
+                Source = imageSource,
+            };
+
+            _canvas.Children.Add(ImageImported);
+            //_canvas.SetTop(ImageImported, NewBody.YPosition);
+            //_canvas.SetLeft(ImageImported, NewBody.XPosition);
         }
     }
 }

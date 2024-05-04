@@ -361,8 +361,8 @@ namespace InclassW10
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "XAML files (*.xaml)|*.xaml";
-            //saveFileDialog.Filter = "Binary File (*.bin)|*.bin";
+            //saveFileDialog.Filter = "XAML files (*.xaml)|*.xaml";
+            saveFileDialog.Filter = "Binary File (*.bin)|*.bin";
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == true)
             {
@@ -394,6 +394,18 @@ namespace InclassW10
                 string filename = screen.FileName;
                 var BFM = new BinaryFileManagement(filename, myCanvas);
                 BFM.LoadFile();
+            }
+        }
+        
+        private void ImageImport_Click(object sender, RoutedEventArgs e)
+        {
+            var screen = new OpenFileDialog();
+
+            if (screen.ShowDialog() == true)
+            {
+                string filename = screen.FileName;
+                var BFM = new BinaryFileManagement(filename, myCanvas);
+                BFM.ImportImageFile();
             }
         }
     }
