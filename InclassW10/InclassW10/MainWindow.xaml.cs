@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -44,33 +44,6 @@ namespace InclassW10
             static public int Rotating { get => 2; }
         }
         // Adorners must subclass the abstract base class Adorner.
-        public class SimpleCircleAdorner : Adorner
-        {
-            // Be sure to call the base class constructor.
-            public SimpleCircleAdorner(UIElement adornedElement)
-              : base(adornedElement)
-            {
-            }
-
-            // A common way to implement an adorner's rendering behavior is to override the OnRender
-            // method, which is called by the layout system as part of a rendering pass.
-            protected override void OnRender(DrawingContext drawingContext)
-            {
-                Rect adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
-
-                // Some arbitrary drawing implements.
-                SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green);
-                renderBrush.Opacity = 0.2;
-                Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
-                double renderRadius = 5.0;
-
-                // Draw a circle at each corner.
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius);
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius);
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius);
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius);
-            }
-        }
         public MainWindow()
         {
             
@@ -85,7 +58,7 @@ namespace InclassW10
         IShape _painter;
         bool resizeMode;
         List<IShape> _prototypes = new List<IShape>();
-        int _mode = 0;
+        int _mode = Mode.Drawing;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -342,8 +315,9 @@ namespace InclassW10
             //// Apply the scale transformation to the ItemsControl
             //ScaleTransform scaleTransform = new ScaleTransform(_scaleValue, _scaleValue, centerPosition.X, centerPosition.Y);
             //DiagramDesignerCanvasContainer.LayoutTransform = scaleTransform;
-            ZoomAtMousePos(e, myCanvas);
-            ZoomAtMousePos(e, previewCanvas);
+            ZoomAtMousePos(e, DiagramDesignerCanvasContainer);
+            //ZoomAtMousePos(e, myCanvas);
+            //ZoomAtMousePos(e, previewCanvas);
             reWrap();
         }
 
@@ -355,13 +329,15 @@ namespace InclassW10
             var matrix = transform.Matrix;
             matrix.ScaleAt(scale, scale, pos.X, pos.Y);
             transform.Matrix = matrix;
+
+            e.Handled = true;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "XAML files (*.xaml)|*.xaml";
-            //saveFileDialog.Filter = "Binary File (*.bin)|*.bin";
+            //saveFileDialog.Filter = "XAML files (*.xaml)|*.xaml";
+            saveFileDialog.Filter = "Binary File (*.bin)|*.bin";
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == true)
             {

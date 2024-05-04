@@ -42,8 +42,9 @@ namespace MyLine
                 Y1 = _start.Y,
                 Y2 = _end.Y,
                 X2 = _end.X,
-                StrokeThickness = 1,
-                Stroke = new SolidColorBrush(Colors.Red)
+                StrokeThickness = strokeThickness,
+                Stroke = new SolidColorBrush(brushColor),
+                StrokeDashArray = strokeDash
             };
         }
 
@@ -65,5 +66,4 @@ namespace MyLine
             fill = brush;
         }
     }
-
 }

@@ -39,9 +39,10 @@ namespace MyEllipse
             {
                 Width = (_rightBottom.X >= _topLeft.X) ? _rightBottom.X - _topLeft.X : _topLeft.X - _rightBottom.X,
                 Height = (_rightBottom.Y >= _topLeft.Y) ? _rightBottom.Y - _topLeft.Y : _topLeft.Y - _rightBottom.Y,
-                StrokeThickness = 1,
-                Fill = new SolidColorBrush(Colors.Transparent),
-                Stroke = new SolidColorBrush(Colors.Blue)
+                StrokeThickness = strokeThickness,
+                Fill = fill,
+                Stroke = new SolidColorBrush(brushColor),
+                StrokeDashArray = strokeDash
             };
             if (_rightBottom.Y >= _topLeft.Y)
             {
