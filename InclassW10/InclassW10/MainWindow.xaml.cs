@@ -91,6 +91,8 @@ namespace InclassW10
                 // actions.Children.Add(control);
             }
             _painter = _prototypes[0];
+            _painter.strokeThickness = 1;
+            _painter.brushColor = Colors.Black;
         }
 
         private void Control_Click(object sender, RoutedEventArgs e)
@@ -316,8 +318,9 @@ namespace InclassW10
             //// Apply the scale transformation to the ItemsControl
             //ScaleTransform scaleTransform = new ScaleTransform(_scaleValue, _scaleValue, centerPosition.X, centerPosition.Y);
             //DiagramDesignerCanvasContainer.LayoutTransform = scaleTransform;
-            ZoomAtMousePos(e, myCanvas);
-            ZoomAtMousePos(e, previewCanvas);
+            ZoomAtMousePos(e, DiagramDesignerCanvasContainer);
+            //ZoomAtMousePos(e, myCanvas);
+            //ZoomAtMousePos(e, previewCanvas);
             reWrap();
         }
 
@@ -329,6 +332,8 @@ namespace InclassW10
             var matrix = transform.Matrix;
             matrix.ScaleAt(scale, scale, pos.X, pos.Y);
             transform.Matrix = matrix;
+
+            e.Handled = true;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
