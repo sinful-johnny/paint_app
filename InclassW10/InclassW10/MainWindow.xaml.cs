@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -54,7 +55,6 @@ namespace InclassW10
         Point _end;
         Image? current_image;
         Point lastMousePosition;
-        //List<IShape> _painters = new List<IShape>();
         IShape _painter;
         bool resizeMode;
         List<IShape> _prototypes = new List<IShape>();
@@ -91,6 +91,10 @@ namespace InclassW10
             //    actions.Children.Add(control);
             //}
             GeometrySelect.ItemsSource = _prototypes;
+            _painter = _prototypes[0];
+            _painter.SetThickness(1);
+            _painter.setBrushColor(Colors.Black);
+            _painter.SetStrokeDash(null);
         }
 
         private void Control_Click(object sender, RoutedEventArgs e)
@@ -100,7 +104,7 @@ namespace InclassW10
             _mode = 1;
         }
 
-        UIElement _selectedElement;
+        UIElement? _selectedElement;
 
         private void SelectColor(object  sender, MouseButtonEventArgs e)
         {
@@ -146,16 +150,18 @@ namespace InclassW10
             }
         }
 
-
+        Point _previewStart = new Point(0,0);
+        Point _previewEnd = new Point(0, 0);
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var mousePosition = e.GetPosition(myCanvas);
+            var mousePosition = e.GetPosition(DiagramDesignerCanvasContainer);
             if (_mode == Mode.Drawing)
             {
                 _isDrawing = true;
 
                 _start = mousePosition;
-                _painter.AddFirst(_start);
+                _previewStart = e.GetPosition(previewCanvas);
+                _painter.AddFirst(_previewStart);
 
                 RemoveAllAdorners();
 
@@ -164,6 +170,7 @@ namespace InclassW10
             {
                 SelectAndAdorn(mousePosition);
             }
+            e.Handled = true;
         }
 
 
@@ -248,11 +255,15 @@ namespace InclassW10
             {
                 _isDrawing = false;
 
-                _end = e.GetPosition(myCanvas);
+                _end = e.GetPosition(DiagramDesignerCanvasContainer);
+
+                _painter.AddFirst(_start);
                 _painter.AddSecond(_end);
                 myCanvas.Children.Add(_painter.Convert());
 
+                //_observers.Clear();
                 previewCanvas.Children.Clear();
+                e.Handled = true;
             }
         }
 
@@ -262,14 +273,16 @@ namespace InclassW10
             {
                 if (_isDrawing)
                 {
-                    _end = e.GetPosition(myCanvas);
+                    _previewEnd = e.GetPosition(previewCanvas);
 
                     previewCanvas.Children.Clear();
 
-                    _painter.AddFirst(_start);
-                    _painter.AddSecond(_end);
+                    _painter.AddSecond(_previewEnd);
 
+                    //_observers.Add(_painter.Convert());
                     previewCanvas.Children.Add(_painter.Convert());
+
+                    e.Handled = true;
                 }
             }catch(Exception ex)
             {
@@ -298,28 +311,6 @@ namespace InclassW10
         private double _scaleValue = 1.0;
         private double zoomScaleFactor = 1.1;
         private Point? mousePos;
-
-        private async void DiagramDesignerCanvasContainer_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            //// Determine the direction of the zoom (in or out)
-            //var centerPosition = e.GetPosition(myCanvas);
-            //bool zoomIn = e.Delta > 0;
-
-            //// Set the scale value based on the direction of the zoom
-            //_scaleValue += zoomIn ? 0.1 : -0.1;
-
-            //// Set the maximum and minimum scale values
-            //_scaleValue = _scaleValue < 0.1 ? 0.1 : _scaleValue;
-            //_scaleValue = _scaleValue > 10.0 ? 10.0 : _scaleValue;
-
-            //// Apply the scale transformation to the ItemsControl
-            //ScaleTransform scaleTransform = new ScaleTransform(_scaleValue, _scaleValue, centerPosition.X, centerPosition.Y);
-            //DiagramDesignerCanvasContainer.LayoutTransform = scaleTransform;
-            ZoomAtMousePos(e, DiagramDesignerCanvasContainer);
-            //ZoomAtMousePos(e, myCanvas);
-            //ZoomAtMousePos(e, previewCanvas);
-            reWrap();
-        }
 
         private void ZoomAtMousePos(MouseWheelEventArgs e, UIElement element)
         {
@@ -379,5 +370,6 @@ namespace InclassW10
                 _painter = (IShape)GeometrySelect.SelectedItem;
             }
         }
+
     }
 }
