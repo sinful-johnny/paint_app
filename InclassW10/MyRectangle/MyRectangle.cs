@@ -9,7 +9,7 @@ namespace MyRectangle
 {
     public class MyRectangle : IShape
     {
-        public double strokeThickness { get => strokeThickness; set => strokeThickness = value; }
+        public double strokeThickness { get; set; }
         public string Name => "Rectangle";
 
         public Color brushColor { get; set; }

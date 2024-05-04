@@ -1,3 +1,4 @@
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
@@ -7,7 +8,7 @@ namespace MyLine
 {
     public class MyLine : IShape
     {
-        public double strokeThickness { get => strokeThickness; set => strokeThickness = value; }
+        public double strokeThickness { get; set; }
         public string Name => "Line";
 
         public Color brushColor { get; set; }

@@ -11,7 +11,7 @@ namespace MyEllipse
     {
         public string Name => "Ellipse";
 
-        public double strokeThickness { get => strokeThickness; set => strokeThickness = value; }
+        public double strokeThickness { get; set; }
         public Color brushColor { get; set; }
         public DoubleCollection strokeDash { get; set; }
         public Brush fill { get; set; }

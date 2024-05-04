@@ -58,6 +58,15 @@
                             <Button Content="Refresh" Name="Refresh" FontSize="12" Click="NoneButton_Click"/>
                         </StackPanel>
                     </RibbonGroup>
+                    <RibbonGroup Header="Shapes">
+                        <ListView Name="GeometrySelect" Background="LightGray" Width="80" SelectionChanged="SelectShape">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" Margin="2"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </RibbonGroup>
                     <RibbonGroup Header="Colors" >
                         <WrapPanel Background="LightGray" Orientation="Vertical" Width="180" Height="80">
                             <!-- Red -->

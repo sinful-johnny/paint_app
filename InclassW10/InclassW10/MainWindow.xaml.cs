@@ -105,19 +105,19 @@ namespace InclassW10
                 }
             }
 
-            foreach (var item in _prototypes)
-            {
-                var control = new Button()
-                {
-                    Width = 80,
-                    Height = 35,
-                    Content = item.Name,
-                    Tag = item
-                };
-                control.Click += Control_Click;
-                // actions.Children.Add(control);
-            }
-            _painter = _prototypes[0];
+            //foreach (var item in _prototypes)
+            //{
+            //    var control = new Button()
+            //    {
+            //        Width = 80,
+            //        Height = 35,
+            //        Content = item.Name,
+            //        Tag = item
+            //    };
+            //    control.Click += Control_Click;
+            //    actions.Children.Add(control);
+            //}
+            GeometrySelect.ItemsSource = _prototypes;
         }
 
         private void Control_Click(object sender, RoutedEventArgs e)
@@ -133,8 +133,7 @@ namespace InclassW10
         {
             if (sender is Rectangle rectangle && _painter != null)
             {
-                var brush = rectangle.Fill as SolidColorBrush;
-                if (brush != null)
+                if (rectangle.Fill is SolidColorBrush brush)
                 {
                     _painter.setBrushColor(brush.Color);
                 }
@@ -147,7 +146,7 @@ namespace InclassW10
 
         private void SelectThickness(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line)
+            if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line && _painter != null)
             {
                 Double Thickness = line.StrokeThickness;
                 _painter?.SetThickness(Thickness);
@@ -394,6 +393,14 @@ namespace InclassW10
                 string filename = screen.FileName;
                 var BFM = new BinaryFileManagement(filename, myCanvas);
                 BFM.LoadFile();
+            }
+        }
+
+        private void SelectShape(object sender, SelectionChangedEventArgs e)
+        {
+            if (GeometrySelect.SelectedItem != null)
+            {
+                _painter = (IShape)GeometrySelect.SelectedItem;
             }
         }
     }
