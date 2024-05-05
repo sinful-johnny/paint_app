@@ -50,7 +50,7 @@
                     </RibbonGroup>
                     <RibbonGroup Header="Media">
                         <StackPanel>
-                            <Button Height="25" Width="25">
+                            <Button Height="25" Width="25" Click="ImageImport_Click">
                                 <Image Source="assets/import.png"/>
                             </Button>
                             <Label Content="Import" FontSize="9"/>
