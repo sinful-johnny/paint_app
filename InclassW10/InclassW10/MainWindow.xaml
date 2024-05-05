@@ -183,7 +183,7 @@
             </Ribbon>
         </StackPanel>
         <Canvas x:Name="previewCanvas" Background="Transparent" Grid.Row="1" local:ZoomBehavior.IsEnabled="True"
-local:ZoomBehavior.ZoomFactor="0.1">
+                local:ZoomBehavior.ZoomFactor="0.1">
         </Canvas>
         <ScrollViewer x:Name="MainScrollViewer"
               CanContentScroll="False"
@@ -202,6 +202,9 @@ local:ZoomBehavior.ZoomFactor="0.1">
                 <ItemsControl.Resources>
                     <ContextMenu x:Key="RightClickMenu">
                         <MenuItem x:Name="DeleteMenuItem" Header="Delete" Click="DeleteMenuItem_Click"/>
+                        <MenuItem x:Name="CopyMenuItem" Header="Copy" Click="CopyMenuItem_Click"/>
+                        <MenuItem x:Name="CutMenuItem" Header="Cut" Click="CutMenuItem_Click"/>
+                        <MenuItem x:Name="PasteMenuItem" Header="Paste" Click="PasteMenuItem_Click"/>
                         <!--<MenuItem x:Name="RotateMenuItem" Header="Rotate" Click="RotateMenuItem_Click"/>-->
                     </ContextMenu>
                 </ItemsControl.Resources>

@@ -59,6 +59,8 @@ namespace InclassW10
         bool resizeMode;
         List<IShape> _prototypes = new List<IShape>();
         int _mode = Mode.Drawing;
+        UIElement? _temp = null;
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -78,59 +80,94 @@ namespace InclassW10
                 }
             }
 
-            //foreach (var item in _prototypes)
-            //{
-            //    var control = new Button()
-            //    {
-            //        Width = 80,
-            //        Height = 35,
-            //        Content = item.Name,
-            //        Tag = item
-            //    };
-            //    control.Click += Control_Click;
-            //    actions.Children.Add(control);
-            //}
             GeometrySelect.ItemsSource = _prototypes;
             _painter = _prototypes[0];
             _painter.SetThickness(1);
-            _painter.setBrushColor(Colors.Black);
+            _painter.setBrushColor(new SolidColorBrush(Colors.Black));
             _painter.SetStrokeDash([]);
-        }
-
-        private void Control_Click(object sender, RoutedEventArgs e)
-        {
-            IShape item = (IShape)(sender as Button)!.Tag;
-            _painter = item;
-            _mode = 1;
         }
 
         UIElement? _selectedElement;
 
         private void SelectColor(object  sender, MouseButtonEventArgs e)
         {
-            if (sender is Rectangle rectangle && _painter != null)
+            if(sender is Rectangle rectangle)
             {
-                if (rectangle.Fill is SolidColorBrush brush)
+                var selectedShape = _selectedElement as Shape;
+                if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
                 {
-                    _painter.setBrushColor(brush.Color);
+                    _painter = _prototypes.Single(x =>  x.Convert().GetType() == selectedShape.GetType());
+                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    _painter.AddFirst(firstPoint);
+                    _painter.AddSecond(secondPoint);
+                    if (rectangle.Fill is SolidColorBrush brush)
+                    {
+                        _painter.setBrushColor(brush);
+                    }
+                    else
+                    {
+                        _painter.setBrushColor(new SolidColorBrush(Colors.Transparent));
+                    }
+                    
+                    _painter.SetFill(selectedShape.Fill);
+                    _painter.SetStrokeDash(selectedShape.StrokeDashArray);
+                    _painter.SetThickness(selectedShape.StrokeThickness);
+
+                    myCanvas.Children.Remove(_selectedElement);
+                    myCanvas.Children.Add(_painter.Convert());
                 }
-                else
+                else if (_painter != null && _mode == Mode.Drawing)
                 {
-                    _painter.setBrushColor(Colors.Transparent);
+                    if (rectangle.Fill is SolidColorBrush brush)
+                    {
+                        _painter.setBrushColor(brush);
+                    }
+                    else
+                    {
+                        _painter.setBrushColor(new SolidColorBrush(Colors.Transparent));
+                    }
                 }
             }
         }
         private void SelectFill(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Rectangle rectangle && _painter != null)
+            if (sender is Rectangle rectangle)
             {
-                if (rectangle.Fill is SolidColorBrush brush)
+                var selectedShape = _selectedElement as Shape;
+                if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
                 {
-                    _painter.SetFill(brush);
+                    _painter = _prototypes.Single(x => x.Convert().GetType() == selectedShape.GetType());
+                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    _painter.AddFirst(firstPoint);
+                    _painter.AddSecond(secondPoint);
+                    if (rectangle.Fill is SolidColorBrush brush)
+                    {
+                        _painter.SetFill(brush);
+                    }
+                    else
+                    {
+                        _painter.SetFill(new SolidColorBrush());
+                    }
+
+                    _painter.setBrushColor(selectedShape.Stroke);
+                    _painter.SetStrokeDash(selectedShape.StrokeDashArray);
+                    _painter.SetThickness(selectedShape.StrokeThickness);
+
+                    myCanvas.Children.Remove(_selectedElement);
+                    myCanvas.Children.Add(_painter.Convert());
                 }
-                else
+                else if (_painter != null && _mode == Mode.Drawing)
                 {
-                    _painter.SetFill(new SolidColorBrush());
+                    if (rectangle.Fill is SolidColorBrush brush)
+                    {
+                        _painter.SetFill(brush);
+                    }
+                    else
+                    {
+                        _painter.SetFill(new SolidColorBrush());
+                    }
                 }
             }
         }
@@ -138,8 +175,30 @@ namespace InclassW10
         {
             if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line && _painter != null)
             {
-                Double Thickness = line.StrokeThickness;
-                _painter?.SetThickness(Thickness);
+                var selectedShape = _selectedElement as Shape;
+                if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
+                {
+                    _painter = _prototypes.Single(x => x.Convert().GetType() == selectedShape.GetType());
+                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    _painter.AddFirst(firstPoint);
+                    _painter.AddSecond(secondPoint);
+
+                    Double Thickness = line.StrokeThickness;
+                    _painter.SetThickness(Thickness);
+
+                    _painter.setBrushColor(selectedShape.Stroke);
+                    _painter.SetStrokeDash(selectedShape.StrokeDashArray);
+                    _painter.SetFill(selectedShape.Fill);
+
+                    myCanvas.Children.Remove(_selectedElement);
+                    myCanvas.Children.Add(_painter.Convert());
+                }
+                else if (_painter != null && _mode == Mode.Drawing)
+                {
+                    Double Thickness = line.StrokeThickness;
+                    _painter.SetThickness(Thickness);
+                }
             }
         }
 
@@ -147,19 +206,51 @@ namespace InclassW10
         {
             if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line)
             {
-                DoubleCollection dashStyles; 
 
-                if (line.StrokeDashArray != null && line.StrokeDashArray.Count > 0)
+                var selectedShape = _selectedElement as Shape;
+                if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
                 {
-                    dashStyles = line.StrokeDashArray;
-                } 
+                    _painter = _prototypes.Single(x => x.Convert().GetType() == selectedShape.GetType());
+                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    _painter.AddFirst(firstPoint);
+                    _painter.AddSecond(secondPoint);
 
-                else
-                {
-                    dashStyles = [];
+                    DoubleCollection dashStyles;
+
+                    if (line.StrokeDashArray != null && line.StrokeDashArray.Count > 0)
+                    {
+                        dashStyles = line.StrokeDashArray;
+                    }
+
+                    else
+                    {
+                        dashStyles = [];
+                    }
+                    _painter.SetStrokeDash(dashStyles);
+
+                    _painter.setBrushColor(selectedShape.Stroke);
+                    _painter.SetThickness(selectedShape.StrokeThickness);
+                    _painter.SetFill(selectedShape.Fill);
+
+                    myCanvas.Children.Remove(_selectedElement);
+                    myCanvas.Children.Add(_painter.Convert());
                 }
+                else if (_painter != null && _mode == Mode.Drawing)
+                {
+                    DoubleCollection dashStyles;
 
-                _painter?.SetStrokeDash(dashStyles);
+                    if (line.StrokeDashArray != null && line.StrokeDashArray.Count > 0)
+                    {
+                        dashStyles = line.StrokeDashArray;
+                    }
+
+                    else
+                    {
+                        dashStyles = [];
+                    }
+                    _painter?.SetStrokeDash(dashStyles);
+                }
             }
         }
 
@@ -240,6 +331,7 @@ namespace InclassW10
                         newImage.ImageSource = new BitmapImage(new Uri(imagePath));
                         newImage.Stretch = Stretch.Fill;
 
+                        _mode = Mode.Drawing;
                         _painter.SetFill(newImage);
                     }
                 }
@@ -382,10 +474,39 @@ namespace InclassW10
             {
                 _painter = (IShape)GeometrySelect.SelectedItem;
                 _painter.SetThickness(1);
-                _painter.setBrushColor(Colors.Black);
+                _painter.setBrushColor(new SolidColorBrush(Colors.Black));
                 _painter.SetStrokeDash([]);
+                _mode = Mode.Drawing;
             }
         }
 
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedElement != null)
+            {
+                _temp = _selectedElement.GetCopy();
+                _selectedElement = null;
+            }
+        }
+
+        private void CutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedElement != null)
+            {
+                myCanvas.Children.Remove(_selectedElement);
+                _temp = _selectedElement.GetCopy();
+                _selectedElement = null;
+            }
+        }
+
+        private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if(_temp != null)
+            {
+                Canvas.SetLeft(_temp, Canvas.GetLeft(_temp) + 50);
+                Canvas.SetTop(_temp, Canvas.GetTop(_temp) + 50);
+                myCanvas.Children.Add(_temp);
+            }
+        }
     }
 }

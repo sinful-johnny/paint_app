@@ -11,7 +11,7 @@ namespace MyLine
         public double strokeThickness { get; set; }
         public string Name => "Line";
 
-        public Color brushColor { get; set; }
+        public Brush brushColor { get; set; }
 
         public DoubleCollection strokeDash { get; set; }
 
@@ -43,12 +43,12 @@ namespace MyLine
                 Y2 = _end.Y,
                 X2 = _end.X,
                 StrokeThickness = strokeThickness,
-                Stroke = new SolidColorBrush(brushColor),
+                Stroke = brushColor,
                 StrokeDashArray = strokeDash
             };
         }
 
-        public void setBrushColor(Color color)
+        public void setBrushColor(Brush color)
         {
             brushColor = color;
         }

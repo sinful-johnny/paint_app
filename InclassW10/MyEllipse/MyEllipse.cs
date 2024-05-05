@@ -12,7 +12,7 @@ namespace MyEllipse
         public string Name => "Ellipse";
 
         public double strokeThickness { get; set; }
-        public Color brushColor { get; set; }
+        public Brush brushColor { get; set; }
         public DoubleCollection strokeDash { get; set; }
         public Brush fill { get; set; }
 
@@ -41,7 +41,7 @@ namespace MyEllipse
                 Height = (_rightBottom.Y >= _topLeft.Y) ? _rightBottom.Y - _topLeft.Y : _topLeft.Y - _rightBottom.Y,
                 StrokeThickness = strokeThickness,
                 Fill = fill,
-                Stroke = new SolidColorBrush(brushColor),
+                Stroke = brushColor,
                 StrokeDashArray = strokeDash
             };
             if (_rightBottom.Y >= _topLeft.Y)
@@ -65,7 +65,7 @@ namespace MyEllipse
             return element;
         }
 
-        public void setBrushColor(Color color)
+        public void setBrushColor(Brush color)
         {
             brushColor = color;
         }
