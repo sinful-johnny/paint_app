@@ -94,7 +94,7 @@ namespace InclassW10
             _painter = _prototypes[0];
             _painter.SetThickness(1);
             _painter.setBrushColor(Colors.Black);
-            _painter.SetStrokeDash(null);
+            _painter.SetStrokeDash([]);
         }
 
         private void Control_Click(object sender, RoutedEventArgs e)
@@ -368,6 +368,9 @@ namespace InclassW10
             if (GeometrySelect.SelectedItem != null)
             {
                 _painter = (IShape)GeometrySelect.SelectedItem;
+                _painter.SetThickness(1);
+                _painter.setBrushColor(Colors.Black);
+                _painter.SetStrokeDash([]);
             }
         }
 
