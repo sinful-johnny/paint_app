@@ -9,9 +9,13 @@
     <Window.Resources>
         <local:ZoomBehavior x:Key="ZoomBehavior"/>
     </Window.Resources>
-    <DockPanel LastChildFill="True" Name="dockPanelScreen">
+    <Grid Name="dockPanelScreen">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="159"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel x:Name="Shape" Height="159" DockPanel.Dock="Top" Orientation="Horizontal">
+        <StackPanel x:Name="Shape" Height="159" Orientation="Horizontal">
             <Ribbon  Height="159">
                 <RibbonTab Header="File" Margin="0,0,0,-24">
                     <RibbonGroup Header="Save and Load" HorizontalContentAlignment="Center">
@@ -46,7 +50,7 @@
                     </RibbonGroup>
                     <RibbonGroup Header="Media">
                         <StackPanel>
-                            <Button Height="25" Click="ImageImport_Click" Width="25">
+                            <Button Height="25" Width="25">
                                 <Image Source="assets/import.png"/>
                             </Button>
                             <Label Content="Import" FontSize="9"/>
@@ -56,7 +60,7 @@
                 <RibbonTab Header="Shapes" Margin="0,0,0,-24" Width="798">
                     <RibbonGroup Header="Refresh" Width="63">
                         <StackPanel Height="36"/>
-                        
+
                         <StackPanel Orientation="Vertical" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Button Content="Refresh" Name="Refresh" FontSize="12" Click="NoneButton_Click"/>
                         </StackPanel>
@@ -178,13 +182,14 @@
                 </RibbonTab>
             </Ribbon>
         </StackPanel>
-        <Grid>
-
-            <ScrollViewer x:Name="MainScrollViewer"
+        <Canvas x:Name="previewCanvas" Background="Transparent" Grid.Row="1" local:ZoomBehavior.IsEnabled="True"
+local:ZoomBehavior.ZoomFactor="0.1">
+        </Canvas>
+        <ScrollViewer x:Name="MainScrollViewer"
               CanContentScroll="False"
               VerticalScrollBarVisibility="Auto"
-              HorizontalScrollBarVisibility="Auto">
-                <ItemsControl x:Name="DiagramDesignerCanvasContainer" 
+              HorizontalScrollBarVisibility="Auto" Grid.Row="1">
+            <ItemsControl x:Name="DiagramDesignerCanvasContainer" 
                                 Height="1080" Width="1920"
                                 MouseLeftButtonDown="Canvas_MouseLeftButtonDown" 
                                 MouseLeftButtonUp="Canvas_MouseLeftButtonUp" 
@@ -194,33 +199,29 @@
                                 local:ZoomBehavior.ZoomFactor="0.1"
                                 local:ZoomBehavior.ScrollViewer="{Binding ElementName=MainScrollViewer}"
                               >
-                    <ItemsControl.Resources>
-                        <ContextMenu x:Key="RightClickMenu">
-                            <MenuItem x:Name="DeleteMenuItem" Header="Delete" Click="DeleteMenuItem_Click"/>
-                            <!--<MenuItem x:Name="RotateMenuItem" Header="Rotate" Click="RotateMenuItem_Click"/>-->
-                        </ContextMenu>
-                    </ItemsControl.Resources>
-                    <ItemsControl.Style>
-                        <Style TargetType="{x:Type ItemsControl}" >
-                            <Setter Property="ContextMenu" Value="{StaticResource RightClickMenu}" />
-                        </Style>
-                    </ItemsControl.Style>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas x:Name="diagramDesigner">
-                                <Canvas.Background>
-                                    <SolidColorBrush Color="Transparent"/>
-                                </Canvas.Background>
-                            </Canvas>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <Canvas x:Name="previewCanvas" Background="Transparent">
-                    </Canvas>
-                    <Canvas x:Name="myCanvas" Background="White">
-                    </Canvas>
-                </ItemsControl>
-            </ScrollViewer>
-            
-        </Grid>
-    </DockPanel>
+                <ItemsControl.Resources>
+                    <ContextMenu x:Key="RightClickMenu">
+                        <MenuItem x:Name="DeleteMenuItem" Header="Delete" Click="DeleteMenuItem_Click"/>
+                        <!--<MenuItem x:Name="RotateMenuItem" Header="Rotate" Click="RotateMenuItem_Click"/>-->
+                    </ContextMenu>
+                </ItemsControl.Resources>
+                <ItemsControl.Style>
+                    <Style TargetType="{x:Type ItemsControl}" >
+                        <Setter Property="ContextMenu" Value="{StaticResource RightClickMenu}" />
+                    </Style>
+                </ItemsControl.Style>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas x:Name="diagramDesigner" >
+                            <Canvas.Background>
+                                <SolidColorBrush Color="Transparent"/>
+                            </Canvas.Background>
+                        </Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <Canvas x:Name="myCanvas" Background="White">
+                </Canvas>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
 </Window>

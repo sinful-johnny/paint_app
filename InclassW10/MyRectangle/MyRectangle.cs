@@ -42,8 +42,8 @@ namespace MyRectangle
                 Width = (_rightBottom.X >= _topLeft.X) ? _rightBottom.X - _topLeft.X : _topLeft.X - _rightBottom.X,
                 Height = (_rightBottom.Y >= _topLeft.Y) ? _rightBottom.Y - _topLeft.Y : _topLeft.Y - _rightBottom.Y,
                 StrokeThickness = strokeThickness,
-                Fill = new SolidColorBrush(brushColor),
-                Stroke = fill,
+                Fill = fill,
+                Stroke = new SolidColorBrush(brushColor),
                 StrokeDashArray = strokeDash
             };
             if (_rightBottom.Y >= _topLeft.Y)
