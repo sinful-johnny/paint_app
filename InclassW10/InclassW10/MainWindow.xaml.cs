@@ -205,7 +205,7 @@ namespace InclassW10
             }
         }
 
-        private void ImageImport(object sender, RoutedEventArgs e)
+        private void ImageImport_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg;*.gif;*.bmp)|*.png;*.jpg;*.jpeg;*.gif;*.bmp|All files (*.*)|*.*";
