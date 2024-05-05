@@ -77,48 +77,48 @@
                     <RibbonGroup Header="Colors" >
                         <WrapPanel Background="LightGray" Orientation="Vertical" Width="180" Height="80">
                             <!-- Red -->
-                            <Rectangle Fill="Red" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Red" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
                             <!-- Green -->
-                            <Rectangle Fill="Green" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Green" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
                             <!-- Blue -->
-                            <Rectangle Fill="Blue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Blue" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
                             <!-- Yellow -->
-                            <Rectangle Fill="Yellow" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Yellow" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
                             <!-- Cyan -->
-                            <Rectangle Fill="Cyan" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Cyan" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
                             <!-- Magenta -->
 
-                            <Rectangle Fill="Magenta" Width="10" Height="10" MouseDown="SelectColor" Margin="5"/>
-                            <Rectangle Fill="Pink" Width="10" Height="10" MouseDown="SelectColor" Margin="5"/>
-                            <Rectangle Fill="Black" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="PeachPuff" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Purple" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Plum" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Lavender" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Indigo" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Orange" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="OrangeRed" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="DarkRed" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Azure" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Coral" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Aquamarine" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Fuchsia" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="AliceBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="DarkBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="SeaShell" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="SeaGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="White" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightPink" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="SeaGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="White" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightBlue" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightPink" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LightPink" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="GreenYellow" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LawnGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="LimeGreen" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
-                            <Rectangle Fill="Violet" Width="10" MouseDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Magenta" Width="10" MouseRightButtonDown="SelectFill" Height="10" MouseLeftButtonDown="SelectColor" Margin="5"/>
+                            <Rectangle Fill="Pink" Width="10" MouseRightButtonDown="SelectFill" Height="10" MouseLeftButtonDown="SelectColor" Margin="5"/>
+                            <Rectangle Fill="Black" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="PeachPuff" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Purple" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Plum" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Lavender" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Indigo" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Orange" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="OrangeRed" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="DarkRed" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Azure" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Coral" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Aquamarine" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Fuchsia" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="AliceBlue" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="DarkBlue" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="SeaShell" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="SeaGreen" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="White" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="LightBlue" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="LightPink" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="SeaGreen" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="White" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="LightBlue" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="LightPink" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="LightPink" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="GreenYellow" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="LawnGreen" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="LimeGreen" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
+                            <Rectangle Fill="Violet" Width="10" MouseRightButtonDown="SelectFill" MouseLeftButtonDown="SelectColor" Height="10" Margin="5"/>
                         </WrapPanel>
                     </RibbonGroup>
                     <RibbonGroup Header="Dash">

@@ -120,7 +120,20 @@ namespace InclassW10
                 }
             }
         }
-
+        private void SelectFill(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Rectangle rectangle && _painter != null)
+            {
+                if (rectangle.Fill is SolidColorBrush brush)
+                {
+                    _painter.SetFill(brush);
+                }
+                else
+                {
+                    _painter.SetFill(new SolidColorBrush());
+                }
+            }
+        }
         private void SelectThickness(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line && _painter != null)
