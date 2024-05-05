@@ -93,12 +93,23 @@ namespace InclassW10
         {
             if(sender is Rectangle rectangle)
             {
+                myCanvas.Children.Remove(_selectedElement);
                 var selectedShape = _selectedElement as Shape;
                 if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
                 {
                     _painter = _prototypes.Single(x =>  x.Convert().GetType() == selectedShape.GetType());
-                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
-                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    Point firstPoint = new Point(0, 0), secondPoint = new Point(0, 0);
+                    if (selectedShape.GetType() == typeof(Line))
+                    {
+                        var selectedLine = (Line)selectedShape;
+                        firstPoint = new Point(selectedLine.X1, selectedLine.Y1);
+                        secondPoint = new Point(selectedLine.X2, selectedLine.Y2);
+                    }
+                    else
+                    {
+                        firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                        secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    }
                     _painter.AddFirst(firstPoint);
                     _painter.AddSecond(secondPoint);
                     if (rectangle.Fill is SolidColorBrush brush)
@@ -113,9 +124,11 @@ namespace InclassW10
                     _painter.SetFill(selectedShape.Fill);
                     _painter.SetStrokeDash(selectedShape.StrokeDashArray);
                     _painter.SetThickness(selectedShape.StrokeThickness);
+                    _painter.SetTransform(selectedShape.RenderTransform);
 
-                    myCanvas.Children.Remove(_selectedElement);
-                    myCanvas.Children.Add(_painter.Convert());
+                    var newElement = _painter.Convert();
+                    int index = myCanvas.Children.Add(newElement);
+                    _selectedElement = myCanvas.Children[index];
                 }
                 else if (_painter != null && _mode == Mode.Drawing)
                 {
@@ -134,12 +147,24 @@ namespace InclassW10
         {
             if (sender is Rectangle rectangle)
             {
+                myCanvas.Children.Remove(_selectedElement);
                 var selectedShape = _selectedElement as Shape;
                 if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
                 {
                     _painter = _prototypes.Single(x => x.Convert().GetType() == selectedShape.GetType());
-                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
-                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    Point firstPoint = new Point(0,0), secondPoint = new Point(0, 0);
+                    if (selectedShape.GetType() == typeof(Line))
+                    {
+                        var selectedLine = (Line) selectedShape;
+                        firstPoint = new Point(selectedLine.X1, selectedLine.Y1);
+                        secondPoint = new Point(selectedLine.X2, selectedLine.Y2);
+                    }
+                    else
+                    {
+                        firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                        secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    }
+                    
                     _painter.AddFirst(firstPoint);
                     _painter.AddSecond(secondPoint);
                     if (rectangle.Fill is SolidColorBrush brush)
@@ -154,9 +179,11 @@ namespace InclassW10
                     _painter.setBrushColor(selectedShape.Stroke);
                     _painter.SetStrokeDash(selectedShape.StrokeDashArray);
                     _painter.SetThickness(selectedShape.StrokeThickness);
+                    _painter.SetTransform(selectedShape.RenderTransform);
 
-                    myCanvas.Children.Remove(_selectedElement);
-                    myCanvas.Children.Add(_painter.Convert());
+                    var newElement = _painter.Convert();
+                    myCanvas.Children.Add(newElement);
+                    _selectedElement = newElement;
                 }
                 else if (_painter != null && _mode == Mode.Drawing)
                 {
@@ -175,12 +202,23 @@ namespace InclassW10
         {
             if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line && _painter != null)
             {
+                myCanvas.Children.Remove(_selectedElement);
                 var selectedShape = _selectedElement as Shape;
                 if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
                 {
                     _painter = _prototypes.Single(x => x.Convert().GetType() == selectedShape.GetType());
-                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
-                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    Point firstPoint = new Point(0, 0), secondPoint = new Point(0, 0);
+                    if (selectedShape.GetType() == typeof(Line))
+                    {
+                        var selectedLine = (Line)selectedShape;
+                        firstPoint = new Point(selectedLine.X1, selectedLine.Y1);
+                        secondPoint = new Point(selectedLine.X2, selectedLine.Y2);
+                    }
+                    else
+                    {
+                        firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                        secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    }
                     _painter.AddFirst(firstPoint);
                     _painter.AddSecond(secondPoint);
 
@@ -190,9 +228,11 @@ namespace InclassW10
                     _painter.setBrushColor(selectedShape.Stroke);
                     _painter.SetStrokeDash(selectedShape.StrokeDashArray);
                     _painter.SetFill(selectedShape.Fill);
+                    _painter.SetTransform(selectedShape.RenderTransform);
 
-                    myCanvas.Children.Remove(_selectedElement);
-                    myCanvas.Children.Add(_painter.Convert());
+                    var newElement = _painter.Convert();
+                    int index = myCanvas.Children.Add(newElement);
+                    _selectedElement = myCanvas.Children[index];
                 }
                 else if (_painter != null && _mode == Mode.Drawing)
                 {
@@ -206,13 +246,23 @@ namespace InclassW10
         {
             if (sender is Button button && button.Content is Grid grid && grid.Children[0] is Line line)
             {
-
+                myCanvas.Children.Remove(_selectedElement);
                 var selectedShape = _selectedElement as Shape;
                 if (_selectedElement != null && _mode == Mode.Selecting && selectedShape != null)
                 {
                     _painter = _prototypes.Single(x => x.Convert().GetType() == selectedShape.GetType());
-                    var firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
-                    var secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    Point firstPoint = new Point(0, 0), secondPoint = new Point(0, 0);
+                    if (selectedShape.GetType() == typeof(Line))
+                    {
+                        var selectedLine = (Line)selectedShape;
+                        firstPoint = new Point(selectedLine.X1, selectedLine.Y1);
+                        secondPoint = new Point(selectedLine.X2, selectedLine.Y2);
+                    }
+                    else
+                    {
+                        firstPoint = new Point(Canvas.GetLeft(_selectedElement), Canvas.GetTop(_selectedElement));
+                        secondPoint = new Point(firstPoint.X + _selectedElement.DesiredSize.Width, firstPoint.Y + _selectedElement.DesiredSize.Height);
+                    }
                     _painter.AddFirst(firstPoint);
                     _painter.AddSecond(secondPoint);
 
@@ -232,9 +282,11 @@ namespace InclassW10
                     _painter.setBrushColor(selectedShape.Stroke);
                     _painter.SetThickness(selectedShape.StrokeThickness);
                     _painter.SetFill(selectedShape.Fill);
+                    _painter.SetTransform(selectedShape.RenderTransform);
 
-                    myCanvas.Children.Remove(_selectedElement);
-                    myCanvas.Children.Add(_painter.Convert());
+                    var newElement = _painter.Convert();
+                    myCanvas.Children.Add(newElement);
+                    _selectedElement = newElement;
                 }
                 else if (_painter != null && _mode == Mode.Drawing)
                 {
@@ -398,6 +450,7 @@ namespace InclassW10
         private void NoneButton_Click(object sender, RoutedEventArgs e)
         {
             _mode = Mode.Selecting;
+            _selectedElement = null;
         }
 
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
@@ -476,6 +529,7 @@ namespace InclassW10
                 _painter.SetThickness(1);
                 _painter.setBrushColor(new SolidColorBrush(Colors.Black));
                 _painter.SetStrokeDash([]);
+                _selectedElement = null;
                 _mode = Mode.Drawing;
             }
         }

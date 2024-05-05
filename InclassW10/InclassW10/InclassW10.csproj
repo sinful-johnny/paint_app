@@ -6,12 +6,17 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>pencil.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="assets\load.png" />
     <None Remove="assets\save-as.png" />
     <None Remove="assets\save.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="pencil.ico" />
   </ItemGroup>
 
   <ItemGroup>

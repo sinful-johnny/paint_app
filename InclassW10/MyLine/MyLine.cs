@@ -16,6 +16,7 @@ namespace MyLine
         public DoubleCollection strokeDash { get; set; }
 
         public Brush fill { get; set; }
+        public Transform transform { get; set; }
 
         private Point _start;
         private Point _end;
@@ -64,6 +65,11 @@ namespace MyLine
         public void SetFill(Brush brush)
         {
             fill = brush;
+        }
+
+        public void SetTransform(Transform transform)
+        {
+            return;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace MyEllipse
         public Brush brushColor { get; set; }
         public DoubleCollection strokeDash { get; set; }
         public Brush fill { get; set; }
+        public Transform transform { get; set; }
 
         private Point _topLeft;
         private Point _rightBottom;
@@ -42,7 +43,8 @@ namespace MyEllipse
                 StrokeThickness = strokeThickness,
                 Fill = fill,
                 Stroke = brushColor,
-                StrokeDashArray = strokeDash
+                StrokeDashArray = strokeDash,
+                RenderTransform = transform
             };
             if (_rightBottom.Y >= _topLeft.Y)
             {
@@ -82,6 +84,11 @@ namespace MyEllipse
         public void SetFill(Brush brush)
         {
             fill = brush;
+        }
+
+        public void SetTransform(Transform transform)
+        {
+            this.transform = transform;
         }
     }
 

@@ -16,6 +16,7 @@ namespace MyRectangle
         public DoubleCollection strokeDash { get; set; }
 
         public Brush fill { get; set; }
+        public Transform transform { get; set; }
 
         private Point _topLeft;
         private Point _rightBottom;
@@ -36,7 +37,6 @@ namespace MyRectangle
 
         public UIElement Convert()
         {
-
             var element = new Rectangle()
             {
                 Width = (_rightBottom.X >= _topLeft.X) ? _rightBottom.X - _topLeft.X : _topLeft.X - _rightBottom.X,
@@ -44,7 +44,8 @@ namespace MyRectangle
                 StrokeThickness = strokeThickness,
                 Fill = fill,
                 Stroke = brushColor,
-                StrokeDashArray = strokeDash
+                StrokeDashArray = strokeDash,
+                RenderTransform = transform
             };
             if (_rightBottom.Y >= _topLeft.Y)
             {
@@ -63,7 +64,6 @@ namespace MyRectangle
                 Canvas.SetLeft(element, _rightBottom.X);
             }
             return element;
-
         }
 
         public void setBrushColor(Brush color)
@@ -81,6 +81,11 @@ namespace MyRectangle
         public void SetFill(Brush brush)
         {
             fill = brush;
+        }
+
+        public void SetTransform(Transform transform)
+        {
+            this.transform = transform;
         }
     }
 
