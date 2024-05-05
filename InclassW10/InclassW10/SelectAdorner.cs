@@ -20,7 +20,7 @@ namespace InclassW10
     {
         int angle;
         VisualCollection AdornerVisual;
-        Thumb thumb1, thumb2,thumbCenter;
+        Thumb thumb1, thumb2, thumbCenter, lineThumb1, lineThumb2;
         Rectangle Rec;
         TextBlock angleText;
         TextBox angleInput;
@@ -30,6 +30,8 @@ namespace InclassW10
             thumb1 = new Thumb() { Background= Brushes.OrangeRed, Height=10,Width=10};
             thumb2 = new Thumb() { Background = Brushes.OrangeRed, Height = 10, Width = 10 };
             thumbCenter = new Thumb() { Background = Brushes.OrangeRed, Height = 10, Width = 10 };
+            lineThumb1 = new Thumb() { Background = Brushes.OrangeRed, Height = 10, Width = 10 };
+            lineThumb2 = new Thumb() { Background = Brushes.OrangeRed, Height = 10, Width = 10 };
             //thumbBottom = new Thumb() { Background = Brushes.OrangeRed, Height = 10, Width = 10 };
             Rec = new Rectangle() { Stroke = Brushes.OrangeRed, StrokeThickness = 2, StrokeDashArray = { 3.0, 2.0 } };
             angleText = new TextBlock() { Width=50,Height=30 };
@@ -40,6 +42,8 @@ namespace InclassW10
             //thumbBottom.DragDelta += ThumbBottom_DragDelta;
             thumbCenter.DragDelta += ThumbCenter_DragDelta;
             angleInput.KeyDown += AngleInput_EnterPressed;
+            lineThumb1.DragDelta += LineThumb1_DragDelta;
+            lineThumb2.DragDelta += LineThumb2_DragDelta;
 
             AdornerVisual.Add(angleText);
             AdornerVisual.Add(thumbCenter);
@@ -47,6 +51,30 @@ namespace InclassW10
             AdornerVisual.Add(thumb1);
             AdornerVisual.Add(thumb2);
             AdornerVisual.Add(angleInput);
+            AdornerVisual.Add(lineThumb1);
+            AdornerVisual.Add(lineThumb2);
+        }
+
+        private void LineThumb2_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var element = AdornedElement as Line;
+
+            if(element != null)
+            {
+                element.Y2 = element.Y2 + e.VerticalChange < 0 ? 0 : element.Y2 + e.VerticalChange;
+                element.X2 = element.X2 + e.HorizontalChange < 0 ? 0 : element.X2 + e.HorizontalChange;
+            }
+        }
+
+        private void LineThumb1_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var element = AdornedElement as Line;
+
+            if (element != null)
+            {
+                element.Y1 = element.Y1 + e.VerticalChange < 0 ? 0 : element.Y1 + e.VerticalChange;
+                element.X1 = element.X1 + e.HorizontalChange < 0 ? 0 : element.X1 + e.HorizontalChange;
+            }
         }
 
         private void AngleInput_EnterPressed(object sender, System.Windows.Input.KeyEventArgs e)
@@ -184,16 +212,41 @@ namespace InclassW10
 
         protected override int VisualChildrenCount => AdornerVisual.Count;
 
+        
         protected override Size ArrangeOverride(Size finalSize)
         {
-            Rec.Arrange(new Rect(-2.5, -2.5, AdornedElement.DesiredSize.Width + 5, AdornedElement.DesiredSize.Height + 5));
-            thumb1.Arrange(new Rect(-5,-5,10,10));
-            thumbCenter.Arrange(new Rect(AdornedElement.DesiredSize.Width/2 - 5, AdornedElement.DesiredSize.Height/2 - 5, 10, 10));
-            thumb2.Arrange(new Rect(AdornedElement.DesiredSize.Width-5, AdornedElement.DesiredSize.Height-5, 10, 10));
-            //thumbBottom.Arrange(new Rect(AdornedElement.DesiredSize.Width / 2 - 5, -20, 10, 10));
-            angleText.Arrange(new Rect(AdornedElement.DesiredSize.Width / 2 - 5, AdornedElement.DesiredSize.Height + 30, 50, 30));
-            angleInput.Arrange(new Rect(AdornedElement.DesiredSize.Width / 2 - 25, -35, 50, 30));
-            return base.ArrangeOverride(finalSize);
+            if(typeof(Line).IsAssignableTo(AdornedElement.GetType()))
+            {
+                var  selectedLine = AdornedElement as Line;
+                if(selectedLine != null)
+                {
+                    double left = Math.Min(selectedLine.X1, selectedLine.X2);
+                    double top = Math.Min(selectedLine.Y1, selectedLine.Y2);
+
+                    var startRect = new Rect(selectedLine.X1 - (lineThumb1.Width / 2), selectedLine.Y1 - (lineThumb1.Width / 2), lineThumb1.Width, lineThumb1.Height);
+                    lineThumb1.Arrange(startRect);
+
+                    var endRect = new Rect(selectedLine.X2 - (lineThumb2.Width / 2), selectedLine.Y2 - (lineThumb2.Height / 2), lineThumb2.Width, lineThumb2.Height);
+                    lineThumb2.Arrange(endRect);
+                    return base.ArrangeOverride(finalSize);
+                }
+                else
+                {
+                    return base.ArrangeOverride(finalSize);
+                }
+            }
+            else
+            {
+                Rec.Arrange(new Rect(-2.5, -2.5, AdornedElement.DesiredSize.Width + 5, AdornedElement.DesiredSize.Height + 5));
+                thumb1.Arrange(new Rect(-5, -5, 10, 10));
+                thumbCenter.Arrange(new Rect(AdornedElement.DesiredSize.Width / 2 - 5, AdornedElement.DesiredSize.Height / 2 - 5, 10, 10));
+                thumb2.Arrange(new Rect(AdornedElement.DesiredSize.Width - 5, AdornedElement.DesiredSize.Height - 5, 10, 10));
+                //thumbBottom.Arrange(new Rect(AdornedElement.DesiredSize.Width / 2 - 5, -20, 10, 10));
+                angleText.Arrange(new Rect(AdornedElement.DesiredSize.Width / 2 - 5, AdornedElement.DesiredSize.Height + 30, 50, 30));
+                angleInput.Arrange(new Rect(AdornedElement.DesiredSize.Width / 2 - 25, -35, 50, 30));
+                return base.ArrangeOverride(finalSize);
+            }
+            
         }
     }
 }
